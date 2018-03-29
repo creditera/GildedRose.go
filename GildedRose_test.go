@@ -49,7 +49,7 @@ var _ = Describe("GildedRose", func() {
 				Context("of zero quality", func() {
 					item := CreateAndUpdateItem("Normal Item", 5, 0)
 
-					It("does not decerement the quality below 0", func() {
+					It("does not decrement the quality below 0", func() {
 						Expect(item.Quality).To(Equal(0))
 					})
 				})
@@ -248,6 +248,61 @@ var _ = Describe("GildedRose", func() {
 
 					It("quality drops to 0", func() {
 						Expect(item.Quality).To(Equal(0))
+					})
+				})
+			})
+
+			XContext("conjured items", func() {
+				It("decrements sell in by 1", func() {
+					item := CreateAndUpdateItem("Conjured Mana Cake", 5, 10)
+					Expect(item.SellIn).To(Equal(4))
+				})
+
+				Context("before the sell date", func() {
+					item := CreateAndUpdateItem("Conjured Mana Cake", 5, 10)
+
+					It("degrades quality by 1", func() {
+						Expect(item.Quality).To(Equal(8))
+					})
+
+					Context("of zero quality", func() {
+						item := CreateAndUpdateItem("Conjured Mana Cake", 5, 0)
+
+						It("does not decrement the quality below 0", func() {
+							Expect(item.Quality).To(Equal(0))
+						})
+					})
+				})
+
+				Context("on the sell date", func() {
+					item := CreateAndUpdateItem("Conjured Mana Cake", 0, 10)
+
+					It("degrades quality by 2", func() {
+						Expect(item.Quality).To(Equal(6))
+					})
+
+					Context("of zero quality", func() {
+						item := CreateAndUpdateItem("Conjured Mana Cake", 0, 0)
+
+						It("does not decrement the quality below 0", func() {
+							Expect(item.Quality).To(Equal(0))
+						})
+					})
+				})
+
+				Context("after sell date", func() {
+					item := CreateAndUpdateItem("Conjured Mana Cake", -10, 10)
+
+					It("degrades quality by 2", func() {
+						Expect(item.Quality).To(Equal(6))
+					})
+
+					Context("of zero quality", func() {
+						item := CreateAndUpdateItem("Conjured Mana Cake", -10, 0)
+
+						It("does not decrement the quality below 0", func() {
+							Expect(item.Quality).To(Equal(0))
+						})
 					})
 				})
 			})
