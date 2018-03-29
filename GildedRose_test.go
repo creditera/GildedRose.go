@@ -17,13 +17,15 @@ var _ = Describe("GildedRose", func() {
 	Describe("UpdateQuality", func() {
 		Context("with a single", func() {
 			Context("normal item", func() {
+				productName := "Normal Item"
+
 				It("decrements sell in by 1", func() {
-					item := CreateAndUpdateItem("Normal Item", 5, 10)
+					item := CreateAndUpdateItem(productName, 5, 10)
 					Expect(item.SellIn).To(Equal(4))
 				})
 
 				Context("before the sell date", func() {
-					item := CreateAndUpdateItem("Normal Item", 5, 10)
+					item := CreateAndUpdateItem(productName, 5, 10)
 
 					It("degrades quality by 1", func() {
 						Expect(item.Quality).To(Equal(9))
@@ -31,7 +33,7 @@ var _ = Describe("GildedRose", func() {
 				})
 
 				Context("on the sell date", func() {
-					item := CreateAndUpdateItem("Normal Item", 0, 10)
+					item := CreateAndUpdateItem(productName, 0, 10)
 
 					It("degrades quality by 2", func() {
 						Expect(item.Quality).To(Equal(8))
@@ -39,7 +41,7 @@ var _ = Describe("GildedRose", func() {
 				})
 
 				Context("after sell date", func() {
-					item := CreateAndUpdateItem("Normal Item", -10, 10)
+					item := CreateAndUpdateItem(productName, -10, 10)
 
 					It("degrades quality by 2", func() {
 						Expect(item.Quality).To(Equal(8))
@@ -47,7 +49,7 @@ var _ = Describe("GildedRose", func() {
 				})
 
 				Context("of zero quality", func() {
-					item := CreateAndUpdateItem("Normal Item", 5, 0)
+					item := CreateAndUpdateItem(productName, 5, 0)
 
 					It("does not decrement the quality below 0", func() {
 						Expect(item.Quality).To(Equal(0))
@@ -56,20 +58,22 @@ var _ = Describe("GildedRose", func() {
 			})
 
 			Context("Aged Brie", func() {
+				productName := "Aged Brie"
+
 				It("decrements sell in by 1", func() {
-					item := CreateAndUpdateItem("Aged Brie", 5, 10)
+					item := CreateAndUpdateItem(productName, 5, 10)
 					Expect(item.SellIn).To(Equal(4))
 				})
 
 				Context("before the sell date", func() {
-					item := CreateAndUpdateItem("Aged Brie", 5, 10)
+					item := CreateAndUpdateItem(productName, 5, 10)
 
 					It("increases quality by 1", func() {
 						Expect(item.Quality).To(Equal(11))
 					})
 
 					Context("with max quality", func() {
-						item := CreateAndUpdateItem("Aged Brie", 5, 50)
+						item := CreateAndUpdateItem(productName, 5, 50)
 
 						It("does not increase quality beyond 50", func() {
 							Expect(item.Quality).To(Equal(50))
@@ -78,14 +82,14 @@ var _ = Describe("GildedRose", func() {
 				})
 
 				Context("on the sell date", func() {
-					item := CreateAndUpdateItem("Aged Brie", 0, 10)
+					item := CreateAndUpdateItem(productName, 0, 10)
 
 					It("increases quality by 2", func() {
 						Expect(item.Quality).To(Equal(12))
 					})
 
 					Context("near max quality", func() {
-						item := CreateAndUpdateItem("Aged Brie", 0, 49)
+						item := CreateAndUpdateItem(productName, 0, 49)
 
 						It("does not increase quality beyond 50", func() {
 							Expect(item.Quality).To(Equal(50))
@@ -93,7 +97,7 @@ var _ = Describe("GildedRose", func() {
 					})
 
 					Context("with max quality", func() {
-						item := CreateAndUpdateItem("Aged Brie", 0, 50)
+						item := CreateAndUpdateItem(productName, 0, 50)
 
 						It("does not increase quality beyond 50", func() {
 							Expect(item.Quality).To(Equal(50))
@@ -102,14 +106,14 @@ var _ = Describe("GildedRose", func() {
 				})
 
 				Context("after sell date", func() {
-					item := CreateAndUpdateItem("Aged Brie", -10, 10)
+					item := CreateAndUpdateItem(productName, -10, 10)
 
 					It("increases quality by 2", func() {
 						Expect(item.Quality).To(Equal(12))
 					})
 
 					Context("with max quality", func() {
-						item := CreateAndUpdateItem("Aged Brie", -10, 50)
+						item := CreateAndUpdateItem(productName, -10, 50)
 
 						It("does not increase quality beyond 50", func() {
 							Expect(item.Quality).To(Equal(50))
@@ -119,13 +123,15 @@ var _ = Describe("GildedRose", func() {
 			})
 
 			Context("Sulfuras, Hand of Ragnaros", func() {
+				productName := "Sulfuras, Hand of Ragnaros"
+
 				It("sell in does not change", func() {
-					item := CreateAndUpdateItem("Sulfuras, Hand of Ragnaros", 5, 80)
+					item := CreateAndUpdateItem(productName, 5, 80)
 					Expect(item.SellIn).To(Equal(5))
 				})
 
 				Context("before the sell date", func() {
-					item := CreateAndUpdateItem("Sulfuras, Hand of Ragnaros", 5, 80)
+					item := CreateAndUpdateItem(productName, 5, 80)
 
 					It("quality does not change", func() {
 						Expect(item.Quality).To(Equal(80))
@@ -133,7 +139,7 @@ var _ = Describe("GildedRose", func() {
 				})
 
 				Context("on the sell date", func() {
-					item := CreateAndUpdateItem("Sulfuras, Hand of Ragnaros", 0, 80)
+					item := CreateAndUpdateItem(productName, 0, 80)
 
 					It("quality does not change", func() {
 						Expect(item.Quality).To(Equal(80))
@@ -141,7 +147,7 @@ var _ = Describe("GildedRose", func() {
 				})
 
 				Context("after sell date", func() {
-					item := CreateAndUpdateItem("Sulfuras, Hand of Ragnaros", -10, 80)
+					item := CreateAndUpdateItem(productName, -10, 80)
 
 					It("quality does not change", func() {
 						Expect(item.Quality).To(Equal(80))
@@ -150,20 +156,22 @@ var _ = Describe("GildedRose", func() {
 			})
 
 			Context("Backstage passes to a TAFKAL80ETC concert", func() {
+				productName := "Backstage passes to a TAFKAL80ETC concert"
+
 				It("decrements sell in by 1", func() {
-					item := CreateAndUpdateItem("Backstage passes to a TAFKAL80ETC concert", 5, 10)
+					item := CreateAndUpdateItem(productName, 5, 10)
 					Expect(item.SellIn).To(Equal(4))
 				})
 
 				Context("long before the sell date", func() {
-					item := CreateAndUpdateItem("Backstage passes to a TAFKAL80ETC concert", 11, 10)
+					item := CreateAndUpdateItem(productName, 11, 10)
 
 					It("increases quality by 1", func() {
 						Expect(item.Quality).To(Equal(11))
 					})
 
 					Context("with max quality", func() {
-						item := CreateAndUpdateItem("Backstage passes to a TAFKAL80ETC concert", 11, 50)
+						item := CreateAndUpdateItem(productName, 11, 50)
 
 						It("does not increase quality beyond 50", func() {
 							Expect(item.Quality).To(Equal(50))
@@ -172,14 +180,14 @@ var _ = Describe("GildedRose", func() {
 				})
 
 				Context("moderately close to the sell date (10 days - upper bound)", func() {
-					item := CreateAndUpdateItem("Backstage passes to a TAFKAL80ETC concert", 10, 10)
+					item := CreateAndUpdateItem(productName, 10, 10)
 
 					It("increases quality by 2", func() {
 						Expect(item.Quality).To(Equal(12))
 					})
 
 					Context("with max quality", func() {
-						item := CreateAndUpdateItem("Backstage passes to a TAFKAL80ETC concert", 10, 50)
+						item := CreateAndUpdateItem(productName, 10, 50)
 
 						It("does not increase quality beyond 50", func() {
 							Expect(item.Quality).To(Equal(50))
@@ -188,14 +196,14 @@ var _ = Describe("GildedRose", func() {
 				})
 
 				Context("moderately close to the sell date (6 days - lower bound)", func() {
-					item := CreateAndUpdateItem("Backstage passes to a TAFKAL80ETC concert", 6, 10)
+					item := CreateAndUpdateItem(productName, 6, 10)
 
 					It("increases quality by 2", func() {
 						Expect(item.Quality).To(Equal(12))
 					})
 
 					Context("with max quality", func() {
-						item := CreateAndUpdateItem("Backstage passes to a TAFKAL80ETC concert", 6, 50)
+						item := CreateAndUpdateItem(productName, 6, 50)
 
 						It("does not increase quality beyond 50", func() {
 							Expect(item.Quality).To(Equal(50))
@@ -204,14 +212,14 @@ var _ = Describe("GildedRose", func() {
 				})
 
 				Context("very close to the sell date (5 days - upper bound)", func() {
-					item := CreateAndUpdateItem("Backstage passes to a TAFKAL80ETC concert", 5, 10)
+					item := CreateAndUpdateItem(productName, 5, 10)
 
 					It("increases quality by 3", func() {
 						Expect(item.Quality).To(Equal(13))
 					})
 
 					Context("with max quality", func() {
-						item := CreateAndUpdateItem("Backstage passes to a TAFKAL80ETC concert", 5, 50)
+						item := CreateAndUpdateItem(productName, 5, 50)
 
 						It("does not increase quality beyond 50", func() {
 							Expect(item.Quality).To(Equal(50))
@@ -220,14 +228,14 @@ var _ = Describe("GildedRose", func() {
 				})
 
 				Context("very close to the sell date (5 days - lower bound)", func() {
-					item := CreateAndUpdateItem("Backstage passes to a TAFKAL80ETC concert", 1, 10)
+					item := CreateAndUpdateItem(productName, 1, 10)
 
 					It("increases quality by 3", func() {
 						Expect(item.Quality).To(Equal(13))
 					})
 
 					Context("with max quality", func() {
-						item := CreateAndUpdateItem("Backstage passes to a TAFKAL80ETC concert", 1, 50)
+						item := CreateAndUpdateItem(productName, 1, 50)
 
 						It("does not increase quality beyond 50", func() {
 							Expect(item.Quality).To(Equal(50))
@@ -236,7 +244,7 @@ var _ = Describe("GildedRose", func() {
 				})
 
 				Context("on the sell date", func() {
-					item := CreateAndUpdateItem("Backstage passes to a TAFKAL80ETC concert", 0, 10)
+					item := CreateAndUpdateItem(productName, 0, 10)
 
 					It("quality drops to 0", func() {
 						Expect(item.Quality).To(Equal(0))
@@ -244,7 +252,7 @@ var _ = Describe("GildedRose", func() {
 				})
 
 				Context("after sell date", func() {
-					item := CreateAndUpdateItem("Backstage passes to a TAFKAL80ETC concert", -10, 10)
+					item := CreateAndUpdateItem(productName, -10, 10)
 
 					It("quality drops to 0", func() {
 						Expect(item.Quality).To(Equal(0))
@@ -253,20 +261,22 @@ var _ = Describe("GildedRose", func() {
 			})
 
 			XContext("conjured items", func() {
+				productName := "Conjured Mana Cake"
+
 				It("decrements sell in by 1", func() {
-					item := CreateAndUpdateItem("Conjured Mana Cake", 5, 10)
+					item := CreateAndUpdateItem(productName, 5, 10)
 					Expect(item.SellIn).To(Equal(4))
 				})
 
 				Context("before the sell date", func() {
-					item := CreateAndUpdateItem("Conjured Mana Cake", 5, 10)
+					item := CreateAndUpdateItem(productName, 5, 10)
 
 					It("degrades quality by 1", func() {
 						Expect(item.Quality).To(Equal(8))
 					})
 
 					Context("of zero quality", func() {
-						item := CreateAndUpdateItem("Conjured Mana Cake", 5, 0)
+						item := CreateAndUpdateItem(productName, 5, 0)
 
 						It("does not decrement the quality below 0", func() {
 							Expect(item.Quality).To(Equal(0))
@@ -275,14 +285,14 @@ var _ = Describe("GildedRose", func() {
 				})
 
 				Context("on the sell date", func() {
-					item := CreateAndUpdateItem("Conjured Mana Cake", 0, 10)
+					item := CreateAndUpdateItem(productName, 0, 10)
 
 					It("degrades quality by 2", func() {
 						Expect(item.Quality).To(Equal(6))
 					})
 
 					Context("of zero quality", func() {
-						item := CreateAndUpdateItem("Conjured Mana Cake", 0, 0)
+						item := CreateAndUpdateItem(productName, 0, 0)
 
 						It("does not decrement the quality below 0", func() {
 							Expect(item.Quality).To(Equal(0))
@@ -291,14 +301,14 @@ var _ = Describe("GildedRose", func() {
 				})
 
 				Context("after sell date", func() {
-					item := CreateAndUpdateItem("Conjured Mana Cake", -10, 10)
+					item := CreateAndUpdateItem(productName, -10, 10)
 
 					It("degrades quality by 2", func() {
 						Expect(item.Quality).To(Equal(6))
 					})
 
 					Context("of zero quality", func() {
-						item := CreateAndUpdateItem("Conjured Mana Cake", -10, 0)
+						item := CreateAndUpdateItem(productName, -10, 0)
 
 						It("does not decrement the quality below 0", func() {
 							Expect(item.Quality).To(Equal(0))
